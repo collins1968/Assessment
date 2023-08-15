@@ -9,7 +9,7 @@ namespace Assessment
 {
     public class  Userdashboard
     {
-        private UserInfo loggedInUser;
+        public UserInfo loggedInUser;
         public void  UserMenu()
         {
             while (true)
@@ -83,7 +83,7 @@ namespace Assessment
             foreach (string data in analyticsData)
             {
                 string[] analyticsInfo = data.Split(',');
-                if (analyticsInfo.Length >= 2 && analyticsInfo[1] == loggedInUser.Username && int.TryParse(analyticsInfo[0], out int courseID))
+                if (analyticsInfo.Length >= 2 && analyticsInfo[1] == LoggedUser.LoggedInUser.Username && int.TryParse(analyticsInfo[0], out int courseID))
                 {
                     // Fetch course details from courses.txt
                     string coursesPath = Path.Combine(Directory.GetCurrentDirectory(), "courses.txt");
@@ -112,13 +112,13 @@ namespace Assessment
             {
                 int coursePrice = int.Parse(courseInfo[3]);
 
-                if (loggedInUser != null && loggedInUser.Role == UserRole.user)
+                if (LoggedUser.LoggedInUser != null && LoggedUser.LoggedInUser.Role == UserRole.user)
                 {
                     // Simulate STK PUSH payment
                     Console.WriteLine("Simulating STK PUSH payment...");
 
                     // Update analytics
-                    UpdateAnalytics(courseID, loggedInUser.Username);
+                    UpdateAnalytics(courseID, LoggedUser.LoggedInUser.Username);
 
                     Console.WriteLine("Purchase successful!");
                 }

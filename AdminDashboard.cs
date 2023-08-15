@@ -57,8 +57,7 @@ namespace Assessment
             }
         }
 
-        // These methods can be part of the Authentication class or a separate class, depending on your organization.
-
+   
         private int GetNextCourseID(string coursesPath)
         {
             string[] courses = File.ReadAllLines(coursesPath);

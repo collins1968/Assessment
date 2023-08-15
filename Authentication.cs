@@ -11,7 +11,7 @@ namespace Assessment
 {
     public class Authentication
     {
-        private UserInfo loggedInUser;
+        public UserInfo loggedInUser;
         public void AuthenticatingPage()
         {
             string path = Path.Combine(Directory.GetCurrentDirectory(), "user.txt");
@@ -91,12 +91,20 @@ namespace Assessment
 
                 if (username == storedUsername && password == storedPassword)
                 {
-                    loggedInUser = new UserInfo
+                    LoggedUser.LoggedInUser = new UserInfo
                     {
                         Username = storedUsername,
                         Password = storedPassword,
-                     
                     };
+
+                    //if (username == storedUsername && password == storedPassword)
+                    //{
+                    //    loggedInUser = new UserInfo
+                    //    {
+                    //        Username = storedUsername,
+                    //        Password = storedPassword,
+
+                    //    };
 
                     if (Enum.TryParse<UserRole>(roleString, true, out UserRole role))
                     {
