@@ -133,46 +133,6 @@ namespace Assessment
             Console.WriteLine("Login failed. Incorrect credentials.");
         }
 
-        //private void PurchaseCourse(string courseData)
-        //{
-        //    string[] courseInfo = courseData.Split(',');
-        //    if (int.TryParse(courseInfo[0], out int courseID) && courseInfo.Length >= 4)
-        //    {
-        //        int coursePrice = int.Parse(courseInfo[3]);
-
-        //        if (loggedInUser != null && loggedInUser.Role == UserRole.user)
-        //        {
-        //            if (loggedInUser.Balance >= coursePrice)
-        //            {
-        //                // Simulate STK PUSH payment
-        //                Console.WriteLine("Simulating STK PUSH payment...");
-
-        //                // Deduct course price from user balance
-        //                loggedInUser.Balance -= coursePrice;
-
-        //                // Update analytics
-        //                UpdateAnalytics(courseID, loggedInUser.Username);
-
-        //                Console.WriteLine("Purchase successful!");
-        //            }
-        //            else
-        //            {
-        //                Console.WriteLine("Insufficient balance to purchase the course.");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("User not logged in or not authorized.");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Invalid course data: " + courseData);
-        //    }
-        //}
-
-
-
     }
 }
 

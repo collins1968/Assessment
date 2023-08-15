@@ -17,7 +17,9 @@ namespace Assessment
                 Console.WriteLine("User Menu:");
                 Console.WriteLine("1. View Courses");
                 Console.WriteLine("2. Purchased Courses");
-                Console.WriteLine("3. Log out");
+                Console.WriteLine("3. Check Balance");
+                Console.WriteLine("4. Add Funds");
+                Console.WriteLine("5. Log out");
                 Console.Write("Enter your choice: ");
                 int userChoice = int.Parse(Console.ReadLine());
 
@@ -30,8 +32,13 @@ namespace Assessment
                     case 2:
                        PurchasedCourses();
                         break;
-
-                    case 3:
+                    case 3: 
+                        DisplayBalance();
+                        break;
+                    case 4:
+                        AddFunds();
+                        break;
+                    case 5:
                         Console.WriteLine("Logging out...");
                         loggedInUser = null; // Clear logged-in user
                         return;
@@ -108,19 +115,31 @@ namespace Assessment
         private void PurchaseCourse(string courseData)
         {
             string[] courseInfo = courseData.Split(',');
+
             if (int.TryParse(courseInfo[0], out int courseID) && courseInfo.Length >= 4)
             {
                 int coursePrice = int.Parse(courseInfo[3]);
 
                 if (LoggedUser.LoggedInUser != null && LoggedUser.LoggedInUser.Role == UserRole.user)
                 {
-                    // Simulate STK PUSH payment
-                    Console.WriteLine("Simulating STK PUSH payment...");
+                    if (LoggedUser.LoggedInUser.Balance >= coursePrice)
+                    {
+                        // Simulate STK PUSH payment
+                        Console.WriteLine("Simulating STK PUSH payment...");
 
-                    // Update analytics
-                    UpdateAnalytics(courseID, LoggedUser.LoggedInUser.Username);
+                        // Deduct course price from user balance
+                        LoggedUser.LoggedInUser.Balance -= coursePrice;
 
-                    Console.WriteLine("Purchase successful!");
+                        // Update analytics
+                        UpdateAnalytics(courseID, LoggedUser.LoggedInUser.Username);
+
+                        Console.WriteLine("Purchase successful!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Insufficient balance to purchase the course.");
+                        AddFunds();
+                    }
                 }
                 else
                 {
@@ -133,6 +152,34 @@ namespace Assessment
             }
         }
 
+
+        private void AddFunds()
+        {
+            Console.Write("Enter the amount to add to your balance: ");
+            if (int.TryParse(Console.ReadLine(), out int amountToAdd))
+            {
+                LoggedUser.UpdateBalance(amountToAdd);
+                Console.WriteLine("Balance updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Invalid amount.");
+            }
+        }
+
+        private void DisplayBalance()
+        {
+            int balance = LoggedUser.CheckBalance();
+            if (balance > 0)
+            {
+                Console.WriteLine($"Your current balance: {balance}");
+            }
+            else
+            {
+                Console.WriteLine("Your balance is zero.");
+            }
+        }
+
         private void UpdateAnalytics(int courseID, string username)
         {
             string analyticsPath = Path.Combine(Directory.GetCurrentDirectory(), "analytics.txt");
@@ -140,5 +187,8 @@ namespace Assessment
 
             File.AppendAllText(analyticsPath, analyticsData + Environment.NewLine);
         }
+
+
+
     }
 }
